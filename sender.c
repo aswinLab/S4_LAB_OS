@@ -17,9 +17,14 @@ int main() {
 
     msgid = msgget(key, 0666 | IPC_CREAT);
 
+    char msg[100];
+    printf("Enter message to send: ");
+    fgets(msg, sizeof(msg), stdin);
+    msg[strcspn(msg, "\n")] = 0;
+
     message.msg_type = 1;
-    strcpy(message.msg_text, "Hello from sender!");
-    
+    strcpy(message.msg_text, msg);
+
     msgsnd(msgid, &message, sizeof(message), 0);
 
     printf("Message sent: %s\n", message.msg_text);
